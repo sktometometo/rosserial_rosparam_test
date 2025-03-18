@@ -41,9 +41,13 @@ void setup()
     bool success = false;
     for (int i = 0; i < string_vector.size(); i++)
     {
+        //
+        snprintf(paramname, sizeof(paramname), "~%s", string_vector[i].c_str());
+        nh.loginfo("Loading parameters from %s", paramname);
+        success = nh.getParam(paramname, paramvalue); // This causes "Cannot send param ~test? because it is a dictionary" error
+        //
         snprintf(paramname, sizeof(paramname), "~%s/path1", string_vector[i].c_str());
         nh.loginfo("Loading parameters from %s", paramname);
-        nh.spinOnce();
         success = nh.getParam(paramname, paramvalue);
         if (success)
         {
@@ -55,7 +59,6 @@ void setup()
         }
         sprintf(paramname, "~%s/path2", string_vector[i].c_str());
         nh.loginfo("Loading parameters from %s", paramname);
-        nh.spinOnce();
         success = nh.getParam(paramname, paramvalue);
         if (success)
         {
